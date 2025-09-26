@@ -46,7 +46,7 @@ const Form = ({ currentId, setCurrentId }) => {
   };
 
   return (
-    <Paper className="p-2">
+    <Paper className="min-w-[450px] p-2">
       <form
         className="flex flex-wrap justify-center"
         autoComplete="off"
@@ -88,7 +88,7 @@ const Form = ({ currentId, setCurrentId }) => {
           label="Tags"
           fullWidth
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(",") })}
         />
         <div className="w-[97%]--- my-[10px]">
           <FileBase

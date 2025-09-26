@@ -17,7 +17,7 @@ function App() {
   return (
     <Container>
       <AppBar
-        className="m-[30px] flex flex-row items-center justify-center rounded-[15px]"
+        className="m-[30px] flex w-auto flex-row items-center justify-center rounded-[15px]"
         position="static"
         color="inherit"
       >
@@ -35,8 +35,9 @@ function App() {
               justifyContent: "space-between",
               alignItems: "stretch",
             }}
+            className="flex-col-reverse sm:flex-row"
           >
-            <Grid size={{ xs: 12, sm: 7 }}>
+            <Grid size={{ xs: 12, sm: 8 }}>
               <Posts setCurrentId={setCurrentId} />
             </Grid>
             <Grid size={{ xs: 12, sm: 4 }}>
