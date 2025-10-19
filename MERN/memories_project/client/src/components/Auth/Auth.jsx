@@ -1,24 +1,55 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Avatar, Button, Container, Grid, Paper, TextField, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockClockOutlined";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 import Input from "./Input";
 import Icon from "./icon";
 
 const Auth = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(true);
 
   const handleSubmit = () => {};
+
   const handleChange = () => {};
+
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
+
   const swithchMode = () => {
     setIsSignUp((prev) => !prev);
     handleShowPassword(false);
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const token = tokenResponse.access_token;
+      const result = await axios
+        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        })
+        .then((res) => res.data);
+
+      try {
+        dispatch({ type: "AUTH", data: { result, token } });
+
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onError: () => {
+      console.log("Login Failed");
+    },
+  });
 
   // const googleSuccess = (res) => {
   //   console.log(res);
@@ -46,7 +77,6 @@ const Auth = () => {
                   autoFocus
                   half
                 />
-
                 <Input name="lastName" label="Last Name" handleChange={handleChange} half />
               </>
             )}
@@ -94,14 +124,7 @@ const Auth = () => {
           <Button className="mt-3 mb-2" type="submit" fullWidth variant="contained" color="primary">
             {isSignUp ? "Sign Up" : "Sign In"}
           </Button>
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              console.log(credentialResponse);
-            }}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-          />
+          <button onClick={() => googleLogin()}>Sign in with Google</button>
           <Grid container justifyContent={"flex-end"}>
             <Grid>
               <Button onClick={swithchMode}>

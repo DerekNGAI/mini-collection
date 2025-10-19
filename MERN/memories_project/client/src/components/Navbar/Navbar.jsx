@@ -1,9 +1,17 @@
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router";
 import memories from "../../assets/memories.png";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
-  const user = null;
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+
+  useEffect(() => {
+    const token = user?.token;
+
+    // JWT...
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, []);
 
   return (
     <AppBar
