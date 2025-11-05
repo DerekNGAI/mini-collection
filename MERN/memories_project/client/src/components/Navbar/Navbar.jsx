@@ -1,17 +1,29 @@
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import memories from "../../assets/memories.png";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+
+    navigate("/");
+
+    setUser(null);
+  };
+
   useEffect(() => {
-    const token = user?.token;
+    // const token = user?.token;
 
     // JWT...
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, []);
+  }, [location]);
 
   return (
     <AppBar
@@ -34,17 +46,14 @@ const Navbar = () => {
       </div>
       <Toolbar className="flex w-[400px] justify-end sm:w-auto">
         {user ? (
-          <div
-            className="flex w-[400px] items-center justify-between sm:mt-[20px] sm:w-auto
-              sm:justify-center"
-          >
-            <Avatar className="" alt={user.result.name} src={user.result.imageUrl}>
+          <div className="flex w-[400px] items-center justify-between sm:w-auto sm:justify-center">
+            <Avatar className="mr-2" alt={user.result.name} src={user.result.imageUrl}>
               {user.result.name.charAt(0)}
             </Avatar>
             <Typography className="flex items-center text-center" variant="h6">
               {user.result.name}
             </Typography>
-            <Button variant="contained" className="ml-[20px]" color="secondary">
+            <Button variant="contained" className="ml-[20px]" color="secondary" onClick={logout}>
               Logout
             </Button>
           </div>

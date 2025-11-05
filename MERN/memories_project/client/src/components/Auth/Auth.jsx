@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { Avatar, Button, Container, Grid, Paper, TextField, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockClockOutlined";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 
 import Input from "./Input";
 import Icon from "./icon";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -15,10 +23,21 @@ const Auth = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(true);
+  const [formData, setFormData] = useState(initialState);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleChange = () => {};
+    if (isSignUp) {
+      dispatch(signup(formData, navigate));
+    } else {
+      dispatch(signin(formData, navigate));
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
