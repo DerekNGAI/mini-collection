@@ -14,17 +14,17 @@ const Input = ({ name, handleChange, label, half, autoFocus, type, handlShowPass
         label={label}
         autoFocus={autoFocus}
         type={type}
-        // InputProps={
-        //   name === "password" && {
-        //     endAdornment: (
-        //       <InputAdornment position="end">
-        //         <IconButton onClick={handlShowPassword}>
-        //           {type === "password" ? <Visibility /> : <VisibilityOff />}
-        //         </IconButton>
-        //       </InputAdornment>
-        //     ),
-        //   }
-        // }
+        InputProps={
+          name === "password" && {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handlShowPassword}>
+                  {type === "password" ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }
+        }
       />
     </Grid>
   );

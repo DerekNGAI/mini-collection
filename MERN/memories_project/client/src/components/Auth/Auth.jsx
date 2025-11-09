@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 
 import Input from "./Input";
 import Icon from "./icon";
+import { signIn, signUp } from "../../actions/auth";
 
 const initialState = {
   firstName: "",
@@ -29,9 +30,9 @@ const Auth = () => {
     e.preventDefault();
 
     if (isSignUp) {
-      dispatch(signup(formData, navigate));
+      dispatch(signUp(formData, navigate));
     } else {
-      dispatch(signin(formData, navigate));
+      dispatch(signIn(formData, navigate));
     }
   };
 
